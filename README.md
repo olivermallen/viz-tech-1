@@ -1,2 +1,2 @@
-# viz-tech-1
+# website
 repository for homework for Visualization Technologies  1
