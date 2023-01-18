@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Lecture 2</title>
+  </head>
+  <body>
+    <svg width="10000" height="10000">
+        <!-- 
+        origin is 0,0 and it is in the top left corner
+        svg element can be any size, but it will be cut off to fit in viewport
+        viewport is defined in the top svg tag
+        just numbers indicates pixels, can specify other measurements
+         -->
+        <rect x="0" y="50" width="45" height="45" fill="blue" />
+        <rect x="50" y="50" rx="10" ry="10" width="45" height="30" fill="red"/>
+        <circle cx="120" cy="70" r="20" fill="green"/>
+        <ellipse cx="170" cy="70" rx="10" ry="20" fill="yellow"/>
+        <line x1="200" y1="50" x2="300" y2="150" stroke="black" stroke-width="5"/>
+        <polyline points="250, 30 260, 50 270, 40 300,10" stroke-width="4" fill="none" stroke="black"/>
+        <polygon points="300, 30 310,50 305, 80"/>
+        <path d="M20,230 Q40,205 50,230 T90,230" fill="none" stroke="blue" stroke-width="5"/>
+        <path d="M20,430 h 90 c 10 10, 10 10, 10 10 s 10 10, 200 100 q 30 40, 50 50 t 50 50" fill="none" stroke="blue" fill="none" stroke-width="4"/>
+    </svg>
+  </body>
+</html>
