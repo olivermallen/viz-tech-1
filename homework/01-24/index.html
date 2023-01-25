@@ -3,13 +3,47 @@
   <head>
     <meta charset="utf-8" />
     <title>Homework 3</title>
+    <style>
+        h1 {text-align:center}
+    </style>
     <script>
-        var num = 10;
+        function add() {
+            const elem = document.getElementById('para');
+            elem.innerHTML = String(Number(elem.innerHTML)+1);
+        }
+        function subtract() {
+            const elem = document.getElementById('para');
+            elem.innerHTML = String(Number(elem.innerHTML)-1);
+        }
+        function crazy() {
+            const head1 = document.getElementById('head1');
+            const head2 = document.getElementById('head2');
+            const para = document.getElementById('para');
+            const button1 = document.getElementById('plus');
+            const button2 = document.getElementById('minus');
+            const button3 = document.getElementById('mystery');
+            head1.innerHTML = "WOAAAAAAAHHHH";
+            head2.innerHTML = "PARTY MODE";
+            para.innerHTML = "INFINITE";
+            head1.style.color = "blue";
+            head2.style.color = "red";
+            para.style.color = "green";
+            head1.style.fontSize='x-large';
+            head2.style.fontSize='x-large';
+            para.style.fontSize='x-large';
+            button1.remove();
+            button2.remove();
+            button3.remove();
+        }
     </script>
   </head>
   <body>
-    <div>
-        <h1>Hello! This is a javascript page</h1>
-    </div>
+    <h1 id="head1">Homework 03</h1>
+    <h2 id="head2">Hello! Try pushing the buttons!</h2>
+    <p id="para">0</p>
+    <button id="minus" onclick="subtract();">-1</button>
+    <button id="plus" onclick="add();">+1</button>
+    <button id="mystery" onclick="crazy();">mystery...</button>
+    <button onClick="window.location.reload();">Refresh Page</button>
   </body>
 </html>
