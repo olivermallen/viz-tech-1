@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Homework 3</title>
+    <script>
+        var num = 10;
+        var name = "ARTG";
+        console.log(num); //prints to console, not webpage itself 
+        var addition = num+10;
+        console.log(addition);
+        num = num + 10;
+        let unchangednum = 10; //immutable
+        console.log(num+10);
+        console.log(name+'5340'); //concat strings
+        //check if num is greater than another value
+        var isbigger = num>100;
+        console.log(isbigger);
+        //increment operator
+        var i = 1;
+        //shortcut for increasing value by 1
+        console.log(i++);
+        //array type
+        var users = ["Northeastern", 10, "ARTG", 100];
+        console.log(users[0]);
+        //objects
+        //add a function within the object
+        var newObject = {
+            name: "Hastings Building", //key value pairs
+            color: 'Green',
+            street: "Huntington Avenue 700", 
+            zip: 53719,
+            greetings: function(name){
+                console.log("Hey "+name+"!");
+            }
+        }
+        console.log(newObject.zip);
+        newObject.greetings("Mel");
+        //types of functions
+        //function without input
+        var printHello = function(){
+            console.log("Hello, world!");
+        }
+        printHello();
+        //function with string input
+        var printName = function(name) {
+            console.log("Hello "+name);
+        }
+        printName("Ma'am");
+
+        var addValues = function(value1, value2){
+            let sum = value1+value2;
+            return sum;
+        }
+        console.log(addValues(2, 3));
+        var expValues = function(val){
+            return val**2;
+        }
+        console.log(expValues(10));
+    </script>
+  </head>
+  <body>
+    <div>
+        <h1>Hello! This is a javascript page</h1>
+    </div>
+  </body>
+</html>
