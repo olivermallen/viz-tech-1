@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Lecture 3</title>
+
+    <!--links external CSS stylesheet-->
+    <link rel="stylesheet" href="style31.css">
+
+    <!--loads an external JS file, as if i wrote the functions in here-->
+    <script src="/lecture/01-31/myFunctions.js"></script>
+
+    <!--loads d3 library-->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+
+  <body>
+    <div>
+        <h1 id="HL">JS Libraries, <br> D3.js and Data Manipulation</br></h1>
+    </div>
+
+    <!-- <p>This is an illustration of</p>
+    <p>the D3 function</p>
+    <p>selectALL </p> -->
+
+    <div>
+        <svg width="760" height="200" id="data-viz">
+            <rect width="760" height = "200" style = "fill:white;stroke-width:1;stroke:black" />
+            <!-- <circle/>
+            <circle cx="120"/>
+            <circle cx="240"/>
+            <circle cx="360"/>
+            <circle cx="480"/> -->
+        </svg>
+    </div>
+
+
+    <script>
+        var sm = sumAB(2, 5);
+        console.log(sm);
+    </script>
+    
+    <script>
+        var page_title = d3.select("#HL");
+
+        //change element styles
+        //(attribute, value)
+        page_title.style("color", "blue");
+        page_title.style("font-size", "60px");
+
+        //chain multiple changes one after the other
+        page_title.style("color", "green")
+            .style("background-color", "pink")
+            .style("font-size", "50px");
+        
+        //changing element attributes
+        // assign a new class to the h1 tag
+        page_title.attr("class", "comicText");
+
+        //change multiple element styles or attributes
+        // d3.selectAll("p").style("text-align", "center").attr("class", "comicText");
+
+        //change multiple svg elements
+        // var allCircles = d3.selectAll("circle")
+        //     .style("fill", "green")
+        //     .attr("cy", "120")
+        //     .attr("r", "10");
+
+    </script>
+    <div>
+        <button onclick="drawCircles(data1)">Data 1</button>
+        <button onclick="drawCircles(data2)">Data 2</button>
+        <button onclick="drawCircles(data3)">Data 3</button>
+    </div>
+
+    <script>
+        //creating a data array
+        var data1 = [
+            {
+                country:"usa",
+                value: 12341234,
+            },
+            {
+                country:"mex", 
+                value:56738462,
+            }
+        ];
+        var data2 = [
+            {
+                country:"chn",
+                value: 45827564,
+            }, 
+            {
+                country:"mex", 
+                value: 38765849,
+            }
+        ]
+        var data3 = [
+        {
+                country:"chn",
+                value: 45857564,
+            }, 
+            {
+                country:"mex", 
+                value: 36765849,
+            },
+            {
+                country:"usa",
+                value: 12312345,
+            }
+        ]
+
+    //function that draws circles using data arrays
+    function drawCircles(dataArray) {
+        //here circles is an empty container, it waits for svg shapes
+        var circles = d3.select("#data-viz").selectAll("circle")
+            .data(dataArray,  function(d){ //this function shows how to match the datapoints(on which key)
+                return d.country;
+            });
+
+        //entering circles
+        circles.enter().append("circle")
+            .attr("cy", "100")
+            .attr("cx", randomPosition)
+            .attr("r", "0")
+            .transition().duration(1000)
+            .attr("r", "25");
+        
+        //updating circles
+        circles.transition().duration(1000)
+            .attr("cx", randomPosition);
+
+        //exiting circles
+        circles.exit()
+            .transition().duration(1000)
+            .attr("r","0")
+            .remove();
+    }
+    </script>
+  </body>
+</html>

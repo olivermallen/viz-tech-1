@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Homework 4</title>
+
+    <!--links external CSS stylesheet-->
+    <link rel="stylesheet" href="style31.css">
+
+    <!--loads an external JS file, as if i wrote the functions in here-->
+    <script src="/homework/01-31/myFunctions.js"></script>
+
+    <!--loads d3 library-->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <h1 id="HL">Dancing Circles!</h1>
+  </div>
+    <div>
+      <svg width="760" height="200" id="shapes">
+          <rect width="760" height = "200" style = "fill:white;stroke-width:1;stroke:black" />
+      </svg>
+    </div>
+
+    <div>
+      <button onclick="drawCircles(data1)">Data 1</button>
+      <button onclick="drawCircles(data2)">Data 2</button>
+      <button onclick="drawCircles(data3)">Data 3</button>
+  </div>
+
+    <script>
+      //creating a data array
+      var data1 = [
+            {
+                name:"paul",
+                color: "red",
+                r: 30
+            },
+            {
+                name:"alex", 
+                color:"blue",
+                r: 68
+            }
+        ];
+        var data2 = [
+            {
+                name:"pete",
+                color: "green",
+                r: 45
+            }, 
+            {
+                name:"alex", 
+                color: "orange",
+                r: 40
+            }, 
+            {
+                name:"paul", 
+                color: "red",
+                r:10
+            }
+
+        ]
+        var data3 = [
+        {
+                name:"pete",
+                color: "green",
+                r: 66
+            }, 
+            {
+                name:"paul", 
+                color: "yellow",
+                r: 30
+            }
+        ]
+      //creating a function to accept this data
+       function drawCircles(dataArray) {
+        //here circles is an empty container, it waits for svg shapes
+        var circles = d3.select("#shapes").selectAll("circle")
+            .data(dataArray,  function(d){ //this function shows how to match the datapoints(on which key)
+                return d.name;
+            });
+
+        //entering circles
+        circles.enter().append("circle")
+            .attr("cy", "100")
+            .attr("cx", randomPosition)
+            .attr("r", "0")
+            .transition().duration(1000)
+            .attr("fill", function(d){
+                  return d.color;
+            })
+            .attr("r", function(d){
+              return d.r;
+            });
+        
+        //updating circles
+        circles.transition().duration(1000)
+            .attr("fill", function(d){
+                  return d.color;
+            })
+            .attr("r", function(d){
+              return d.r;
+            })
+            .attr("cx", randomPosition);
+
+        //exiting circles
+        circles.exit()
+            .transition().duration(1000)
+            .attr("r","0")
+            .remove();
+    }
+    </script>
+  </body>
+</html>
