@@ -92,7 +92,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         .attr("class","axisLabel")
         .attr("transform","rotate(-90)")
         .attr("x", -height/2)
-        .attr("y", margin.left/2)
+        .attr("y", margin.left/3)
         .text("Population");
 
 });
