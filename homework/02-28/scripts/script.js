@@ -32,7 +32,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     //access with lifeExp.min
 
     //4. CREATE SCALES
-    const margin = {top: 50, left:100, right:50, bottom:100};
+    const margin = {top: 50, left:150, right:50, bottom:100};
     
     const xScale = d3.scaleBand()
         .domain(["1952", "1957", "1962", "1967", "1972", "1977", "1982", "1987", "1992", "1997", "2002", "2007"])
