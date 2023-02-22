@@ -43,7 +43,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         .domain([1000, pop.max])
         .range([height-margin.bottom, margin.top]);
 
-    //5. DRAW AXES (not complete)
+    //5. DRAW AXES 
     const xAxis = svg.append("g")
         .attr("class","axis")
         .attr("transform", `translate(0,${height-margin.bottom})`)
@@ -54,16 +54,33 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft().scale(yScale));
 
-    //6. DRAW BARS (not complete)
-    const points = svg.selectAll("rect")
+    //6. DRAW DOTS
+    //source: https://www.educative.io/answers/how-to-create-a-line-chart-using-d3
+    const points = svg.selectAll("dot")
         .data(filtered_data)
         .enter()
-        .append("rect")
-            .attr("x", function(d) { return xScale(d.year); })
-            .attr("y", function(d) { return yScale(d.pop); })
-            .attr("width", xScale.bandwidth())
-            .attr("height", function(d) { return height - (margin.bottom + yScale(d.pop)) })
-            .attr("fill", "steelblue");
+        .append("circle")
+            .attr("cx", function (d) { return xScale(d.year); } )
+            .attr("cy", function (d) { return yScale(d.pop); } )
+            .attr("transform", `translate(${margin.left},0)`)
+            .attr("r", 2)
+            .style("fill", "steelblue");
+    
+    //6.5 DRAW LINE
+    var line = d3.line()
+        .x(function(d) { return xScale(d.year); }) 
+        .y(function(d) { return yScale(d.pop); }) 
+        .curve(d3.curveMonotoneX)
+        
+        svg.append("path")
+        .datum(filtered_data) 
+        .attr("class", "line") 
+        .attr("transform", `translate(${margin.left},0)`)
+        .attr("d", line)
+        .style("fill", "none")
+        .style("stroke", "#CC0000")
+        .style("stroke-width", "2");
+
     //7. DRAW LABELS
     const xAxisLabel = svg.append("text")
         .attr("class","axisLabel")
