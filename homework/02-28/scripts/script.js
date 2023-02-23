@@ -62,6 +62,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         .append("circle")
             .attr("cx", function (d) { return xScale(d.year); } )
             .attr("cy", function (d) { return yScale(d.pop); } )
+            .attr("transform", `translate(${margin.left},0)`)
             .attr("r", 2)
             .style("fill", "steelblue");
     
@@ -77,6 +78,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         .attr("d", line)
         .style("fill", "none")
         .style("stroke", "#CC0000")
+        .attr("transform", `translate(${margin.left},0)`)
         .style("stroke-width", "2");
 
     //7. DRAW LABELS
