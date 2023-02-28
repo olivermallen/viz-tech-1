@@ -56,7 +56,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
 
     //6. DRAW DOTS
     //source: https://www.educative.io/answers/how-to-create-a-line-chart-using-d3
-    const points = svg.selectAll("dot")
+    const points = svg.selectAll("dot") // something here is weird and it makes the dots shifted to the right
         .data(filtered_data)
         .enter()
         .append("circle")
@@ -98,5 +98,6 @@ d3.csv("./data/gapminder.csv").then(function(data) {
 });
 
 //HW7 customize:
-//change country and variable - check if it has updated
+//change country and variable 
 //change into a line chart rather than bars
+//why is it always shifted right? 
