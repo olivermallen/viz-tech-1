@@ -188,6 +188,7 @@ d3.json("./data/graph.json").then(function(graph) {
     .data(graph.nodes)
     .enter().append("text")
     .attr("text-anchor", "middle")
+    .attr("font-size", function(d) { return Math.round(d.size/(3*nodesize_scaler))+'px'; })
     //.attr("dx", 12)
     //.attr("dy", ".35em")
     .text(function(d) { return d.name });
