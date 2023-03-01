@@ -119,6 +119,23 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
 //https://gist.github.com/mbostock/4062045
 //https://stackoverflow.com/questions/41928319/text-not-showing-as-label-in-d3-force-layout for naming nodes
 
+function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+  
+  function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+  
+  function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+
 const width = document.querySelector("#chart").clientWidth;
 const height = document.querySelector("#chart").clientHeight;
 
@@ -195,22 +212,3 @@ d3.json("./data/graph.json").then(function(graph) {
         .attr("y", function(d) { return d.y; });
   }
 });
-
-//drag functionality not working right now
-
-function dragstarted(d) {
-  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-  d.fx = d.x;
-  d.fy = d.y;
-}
-
-function dragged(d) {
-  d.fx = d3.event.x;
-  d.fy = d3.event.y;
-}
-
-function dragended(d) {
-  if (!d3.event.active) simulation.alphaTarget(0);
-  d.fx = null;
-  d.fy = null;
-}
