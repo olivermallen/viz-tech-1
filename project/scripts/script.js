@@ -139,7 +139,7 @@ function dragstarted(event, d) {
 const width = document.querySelector("#network").clientWidth;
 const height = document.querySelector("#network").clientHeight;
 
-const nodesize_scaler = 3
+const nodesize_scaler = 2
 
 console.log(width);
 console.log(height);
@@ -189,10 +189,10 @@ d3.json("./data/graph.json").then(function(graph) {
     .enter().append("text")
     .attr("text-anchor", "middle")
     .attr("font-size", function(d) { return Math.round(d.size/(3*nodesize_scaler))+'px'; })
-    .text(function(d) { return d.name.substring(0, d.size / 3*nodesize_scaler); })
+    //.text(function(d) { return d.name.substring(0, d.size / 3*nodesize_scaler); })
     //.attr("dx", 12)
     //.attr("dy", ".35em")
-    //.text(function(d) { return d.name });
+    .text(function(d) { return d.name });
   
   node.append("title")
     .text(function(d) { return d.name; });
