@@ -136,11 +136,16 @@ function dragstarted(event, d) {
     d.fy = null;
   }
 
-const width = document.querySelector("#chart").clientWidth;
-const height = document.querySelector("#chart").clientHeight;
+const width = document.querySelector("#network").clientWidth;
+const height = document.querySelector("#network").clientHeight;
+
+const nodesize_scaler = 3
+
+console.log(width);
+console.log(height);
 
 //create svg container
-const svg = d3.select("#chart")
+const svg = d3.select("#network")
     .append("svg")
     .attr("width", width)
     .attr("height", height);
@@ -152,7 +157,7 @@ var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody().strength(-30))
     .force("center", d3.forceCenter(width / 2, height / 2))
     .force('collision', d3.forceCollide().radius(function(d) {
-        return d.size/2
+        return d.size/nodesize_scaler
       }));
 
 d3.json("./data/graph.json").then(function(graph) {
@@ -169,7 +174,7 @@ d3.json("./data/graph.json").then(function(graph) {
     .selectAll("circle")
     .data(graph.nodes)
     .enter().append("circle")
-      .attr("r", function(d) {return d.size/2; })
+      .attr("r", function(d) {return d.size/nodesize_scaler; })
       .attr("fill", 'red') //changed color to red
       .call(d3.drag()
           .on("start", dragstarted)
