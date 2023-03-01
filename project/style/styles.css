@@ -30,12 +30,12 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/length
 */
 
   #chart {
-    width: 50%;
+    width: 50vw;
     height: 80vh;
   }
 
   #network {
-    width: 50%;
+    width: 50vw;
     height: 80vh;
   }
   
