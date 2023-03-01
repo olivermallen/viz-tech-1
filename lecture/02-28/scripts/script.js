@@ -5,6 +5,7 @@ const width = window.innerWidth, height = window.innerHeight;
 
 // Try to use these two variables for `width` and `height` instead and
 // notice what happens to the size of the map visualization. Can you tell why?
+// this uses the default size of the svg viewport
 
 // const width = document.querySelector("#viz").clientWidth;
 // const height = document.querySelector("#viz").clientHeight;
@@ -14,6 +15,7 @@ const width = window.innerWidth, height = window.innerHeight;
 // to store just the element that holds our map; this element is a group
 // that in HTML tags is given by "g". See the index.html for more information.
 
+//this is a specification of viewport by using the window
 const svg = d3.select("#viz")
             .attr("width", width)
             .attr("height", height);
@@ -40,13 +42,13 @@ d3.json("data/world-alpha3.json").then(function(world) {
      * (c) Properties, in this case `name` and `iso`. e.g., name: "Argentina", iso: "ARG"
     */
 
-    // TO DO
+    let geoJSON = topojson.feature(world, world.objects.countries);
     
     // 6.
     // Filtering Out Polygons: We are removing the JavaScript object that stores the features
     // of Antarctica because we will hide Antarctica from the specific map we are making.
 
-    // TO DO
+    
 
     /**
      * 7. Map Projections
@@ -65,7 +67,8 @@ d3.json("data/world-alpha3.json").then(function(world) {
      * https://github.com/d3/d3-geo#azimuthal-projections
     */
 
-    // TO DO
+    let proj = d3.geoMercator().fitSize([width, height], geoJSON);
+  
 
     /**
      * 8. Geographical Path Constructor
@@ -73,7 +76,19 @@ d3.json("data/world-alpha3.json").then(function(world) {
      * 
      */
 
-    // TO DO
+    let path = d3.geoPath().projection(proj);
+
+    //D3 join pattern approach, binding "path" SVG shapes into geoJSON data
+    map.selectAll("path")
+      .data(geoJSON.features)
+      .enter()
+      .append("path")
+      //we use the "d" attribute in SVG graphics to define a path to be drawn "d" is a presentation attribute, we can also use CSS properties on it
+      .attr("d", path)
+      .attr("fill", "#FCEDDA")
+      .attr("vector-effect", "non-scaling-stroke")
+      .attr("stroke", "#FC766AFF")
+      .attr("stroke-width", "0.5px");
     
     /**
      * 9. Plotting on the Geographical Map
@@ -89,7 +104,11 @@ d3.json("data/world-alpha3.json").then(function(world) {
     // NOTE: The coordinates for a city are given as: [longitude, latitude]
     //       because that is how the projection function wants them.
 
-    // TO DO
+    var points = [
+      {"name": "Boston", "coords": [-71.0589, 42.3601]},
+      {"name": "London", "coords": [-71.0589, 42.3601]}
+    ];
+
 
     // 10. The following is a D3 join pattern for adding
     // SVG circle shapes. 
@@ -99,7 +118,15 @@ d3.json("data/world-alpha3.json").then(function(world) {
     // projection is just a function that requires an input argument, 
     // namely the coordinates of a point.
 
-    // TO DO
+    map.selectAll("circle")
+      .data(points)
+      .enter()
+      .append("circle")
+      .attr("r", 4)
+      .attr("fill", "black")
+      .attr("transform", function(d){
+        return "translate("+ proj(d.coords) + ")";
+      });
 
     /**
      * 11. D3 Zoom and Pan
@@ -112,6 +139,15 @@ d3.json("data/world-alpha3.json").then(function(world) {
      * Documentation: https://github.com/d3/d3-zoom
      */
 
-    // TO DO
+    function zoomed(e) {
+      map.attr("transform", e.transform);
+    }
+
+    let zoom = d3.zoom()
+      //constrains zoom
+      .translateExtent([[0,0], [width, height]])
+      .scaleExtent([1,15])
+      .on("zoom", zoomed);
+    svg.call(zoom);
 
 });
