@@ -34,7 +34,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
 
     });
 
-    console.log(filtered_data);
+    //console.log(filtered_data);
 
 
     //3. DETERMINE MIN AND MAX VALUES OF VARIABLES
@@ -51,7 +51,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
     //access with lifeExp.min
 
     //4. CREATE SCALES
-    const margin = {top: 50, left:100, right:50, bottom:100};
+    const margin = {top: 50, left:150, right:50, bottom:100};
     
     //https://observablehq.com/@d3/d3-scaletime
 
@@ -111,11 +111,106 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
         .attr("transform","rotate(-90)")
         .attr("x", -height/2)
         .attr("y", margin.left/3)
-        .text("Times Posted in Tradwife Posts");
+        .text("Times #Cottagecore Posted in Tradwife Posts");
 
 });
 
-//HW8
-//get data for tag timeline in pandas
-//create network visualization and place, probably too big to be interactive?
-////maybe with only tradwife blogs this would work
+//https://gist.github.com/DavidDeSimone/1a32a97913360c8e181e
+//https://gist.github.com/mbostock/4062045
+//https://stackoverflow.com/questions/41928319/text-not-showing-as-label-in-d3-force-layout for naming nodes
+
+const width = document.querySelector("#chart").clientWidth;
+const height = document.querySelector("#chart").clientHeight;
+
+//create svg container
+const svg = d3.select("#chart")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+//var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.name; }))
+    .force("charge", d3.forceManyBody().strength(-30))
+    .force("center", d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide().radius(function(d) {
+        return d.size/2
+      }));
+
+d3.json("./data/graph.json").then(function(graph) {
+  //if (error) throw error;
+  var link = svg.append("g")
+      .attr("class", "links")
+    .selectAll("line")
+    .data(graph.links)
+    .enter().append("line")
+      .attr("stroke-width", 2); //changed link width to 2
+
+  var node = svg.append("g")
+      .attr("class", "nodes")
+    .selectAll("circle")
+    .data(graph.nodes)
+    .enter().append("circle")
+      .attr("r", function(d) {return d.size/2; })
+      .attr("fill", 'red') //changed color to red
+      .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
+
+ 
+  var text = svg.append("g")
+    .attr("class", "label")
+    .selectAll("text")
+    .data(graph.nodes)
+    .enter().append("text")
+    .attr("text-anchor", "middle")
+    //.attr("dx", 12)
+    //.attr("dy", ".35em")
+    .text(function(d) { return d.name });
+  
+  node.append("title")
+    .text(function(d) { return d.name; });
+
+  simulation
+      .nodes(graph.nodes)
+      .on("tick", ticked);
+
+  simulation.force("link")
+      .links(graph.links);
+
+  function ticked() {
+    link
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node
+        .attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+    
+    text.attr("x", function(d) { return d.x; })
+        .attr("y", function(d) { return d.y; });
+  }
+});
+
+//drag functionality not working right now
+
+function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
+
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}

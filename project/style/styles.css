@@ -44,3 +44,20 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/length
   .axis {
     font-size: 10pt;
   }
+
+  /* https://gist.github.com/mbostock/4062045*/
+
+  .links line {
+    stroke: #999;
+    stroke-opacity: 0.6;
+  }
+  
+  .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+  }
+
+  label {
+    font-family: sans-serif;
+    font-size: 10px;
+  }
