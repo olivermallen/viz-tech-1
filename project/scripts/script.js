@@ -154,7 +154,7 @@ const svg = d3.select("#network")
 //var color = d3.scaleOrdinal(d3.schemeCategory20);
 
 var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.name; }))
+    .force("link", d3.forceLink().id(function(d) { return d.name; }).strength(function(d) { return d.strength; }))
     .force("charge", d3.forceManyBody().strength(-30))
     .force("center", d3.forceCenter(width / 2, height / 2))
     .force('collision', d3.forceCollide().radius(function(d) {
