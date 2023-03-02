@@ -139,7 +139,8 @@ function dragstarted(event, d) {
 const width = document.querySelector("#network").clientWidth;
 const height = document.querySelector("#network").clientHeight;
 
-const nodesize_scaler = 2
+const nodesize_scaler = .1;
+const radius = 10;
 
 console.log(width);
 console.log(height);
@@ -159,6 +160,7 @@ var simulation = d3.forceSimulation()
     .force('collision', d3.forceCollide().radius(function(d) {
         return d.size/nodesize_scaler
       }));
+    //.force('collision', d3.forceCollide().radius(radius));
 
 d3.json("./data/graph.json").then(function(graph) {
   //if (error) throw error;
@@ -174,6 +176,7 @@ d3.json("./data/graph.json").then(function(graph) {
     .selectAll("circle")
     .data(graph.nodes)
     .enter().append("circle")
+        //.attr("r", radius)
       .attr("r", function(d) {return d.size/nodesize_scaler; })
       .attr("fill", 'red') //changed color to red
       .call(d3.drag()
@@ -189,6 +192,7 @@ d3.json("./data/graph.json").then(function(graph) {
     .enter().append("text")
     .attr("text-anchor", "middle")
     .attr("font-size", function(d) { return Math.round(d.size/(3*nodesize_scaler))+'px'; })
+    //.attr("font-size", function(d) { return Math.round(radius/(3*nodesize_scaler))+'px'; })
     //.text(function(d) { return d.name.substring(0, d.size / 3*nodesize_scaler); })
     //.attr("dx", 12)
     //.attr("dy", ".35em")
@@ -219,3 +223,13 @@ d3.json("./data/graph.json").then(function(graph) {
         .attr("y", function(d) { return d.y; });
   }
 });
+
+
+//still to add
+//wrap node lables
+//better graph trimming method
+//multiple line graph function
+//select tags from network to show in graph
+//add introductory page/slides
+//add links to tumblr website from tag
+//make pretty
