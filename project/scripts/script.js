@@ -5,22 +5,22 @@
 //https://gist.github.com/mbostock/4062045
 //https://stackoverflow.com/questions/41928319/text-not-showing-as-label-in-d3-force-layout for naming nodes
 
-function dragstarted(event, d) {
-    if (!event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  }
+// function dragstarted(event, d) {
+//     if (!event.active) simulation.alphaTarget(0.3).restart();
+//     d.fx = d.x;
+//     d.fy = d.y;
+//   }
   
-  function dragged(event, d) {
-    d.fx = event.x;
-    d.fy = event.y;
-  }
+//   function dragged(event, d) {
+//     d.fx = event.x;
+//     d.fy = event.y;
+//   }
   
-  function dragended(event, d) {
-    if (!event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-  }
+//   function dragended(event, d) {
+//     if (!event.active) simulation.alphaTarget(0);
+//     d.fx = null;
+//     d.fy = null;
+//   }
 
 const width = document.querySelector("#network").clientWidth;
 const height = document.querySelector("#network").clientHeight;
@@ -63,12 +63,14 @@ d3.json("./data/graph.json").then(function(graph) {
     .data(graph.nodes)
     .enter().append("circle")
         //.attr("r", radius)
+      .attr("class", "node_circles")
       .attr("r", function(d) {return d.size/nodesize_scaler; })
       .attr("fill", 'red') //changed color to red
-      .call(d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended));
+      .attr("id", function(d) {return d.name; });
+    //   .call(d3.drag()
+    //       .on("start", dragstarted)
+    //       .on("drag", dragged)
+    //       .on("end", dragended));
 
  
   var text = svg.append("g")
@@ -145,16 +147,16 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
     //setting up select group option
     //https://d3-graph-gallery.com/graph/line_select.html
 
-    var allGroup = [...new Set(data.map(d => d.tags))];
-    console.log(allGroup)
+    //var allGroup = [...new Set(data.map(d => d.tags))];
+    //console.log(allGroup)
 
-    d3.select("#selectButton")
-      .selectAll('myOptions')
-     	.data(allGroup)
-      .enter()
-    	.append('option')
-      .text(function (d) { return d; }) // text showed in the menu
-      .attr("value", function (d) { return d; }) // corresponding value returned by the button
+    // d3.select("#selectButton")
+    //   .selectAll('myOptions')
+    //  	.data(allGroup)
+    //   .enter()
+    // 	.append('option')
+    //   .text(function (d) { return d; }) // text showed in the menu
+    //   .attr("value", function (d) { return d; }) // corresponding value returned by the button
 
 
     let filtered_data = data.filter(function(d) { //initialize with cottagecore tag
@@ -165,7 +167,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
 
     drawline(filtered_data, 'cottagecore');
 
-    // A function that update the chart
+    // A function that updates the chart
     function update(selectedGroup) {
 
       // Create new data with the selection
@@ -176,12 +178,12 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
       drawline(filtered_data, selectedGroup);
     }
 
-    // When the button is changed, run the updateChart function
-    d3.select("#selectButton").on("change", function(d) {
+    //When a node is clicked, run the updateChart function
+    d3.selectAll(".node_circles").on("click", function(d) {
         // recover the option that has been chosen
-        var selectedOption = d3.select(this).property("value")
+        var selectedOption = this.id;
         // run the updateChart function with this selected option
-        update(selectedOption)
+        update(selectedOption);
     })
 
     
