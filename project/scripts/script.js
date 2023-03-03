@@ -5,22 +5,22 @@
 //https://gist.github.com/mbostock/4062045
 //https://stackoverflow.com/questions/41928319/text-not-showing-as-label-in-d3-force-layout for naming nodes
 
-// function dragstarted(event, d) {
-//     if (!event.active) simulation.alphaTarget(0.3).restart();
-//     d.fx = d.x;
-//     d.fy = d.y;
-//   }
+function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
   
-//   function dragged(event, d) {
-//     d.fx = event.x;
-//     d.fy = event.y;
-//   }
+  function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+  }
   
-//   function dragended(event, d) {
-//     if (!event.active) simulation.alphaTarget(0);
-//     d.fx = null;
-//     d.fy = null;
-//   }
+  function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
 
 const width = document.querySelector("#network").clientWidth;
 const height = document.querySelector("#network").clientHeight;
@@ -66,11 +66,11 @@ d3.json("./data/graph.json").then(function(graph) {
       .attr("class", "node_circles")
       .attr("r", function(d) {return d.size/nodesize_scaler; })
       .attr("fill", 'red') //changed color to red
-      .attr("id", function(d) {return d.name; });
-    //   .call(d3.drag()
-    //       .on("start", dragstarted)
-    //       .on("drag", dragged)
-    //       .on("end", dragended));
+      .attr("id", function(d) {return d.name; })
+      .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
 
  
   var text = svg.append("g")
@@ -104,11 +104,12 @@ d3.json("./data/graph.json").then(function(graph) {
         .attr("y2", function(d) { return d.target.y; });
 
     node
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
+        .attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
+        .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
     
     text.attr("x", function(d) { return d.x; })
         .attr("y", function(d) { return d.y; });
+    
   }
 });
 
@@ -143,20 +144,6 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
         d.time_posted = parseTime(d.time_posted);
 
     });
-
-    //setting up select group option
-    //https://d3-graph-gallery.com/graph/line_select.html
-
-    //var allGroup = [...new Set(data.map(d => d.tags))];
-    //console.log(allGroup)
-
-    // d3.select("#selectButton")
-    //   .selectAll('myOptions')
-    //  	.data(allGroup)
-    //   .enter()
-    // 	.append('option')
-    //   .text(function (d) { return d; }) // text showed in the menu
-    //   .attr("value", function (d) { return d; }) // corresponding value returned by the button
 
 
     let filtered_data = data.filter(function(d) { //initialize with cottagecore tag
@@ -276,7 +263,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
 //still to add
 //wrap node lables
 //multiple line graph function
-//select tags from network to show in graph
+//zoom
 //add introductory page/slides
 //add links to tumblr website from tag
 //make pretty
