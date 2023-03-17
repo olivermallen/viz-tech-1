@@ -14,11 +14,50 @@ to all elements.
   }
   
   html, body {
-    margin: 0px;
-    padding: 0px;
+    margin: 15px;
+    padding: 15px;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
+    background-color:#c8f0d9;
   }
+
+
+  a {
+    color: rgb(126, 39, 82);
+  } 
+
+  .header {
+    padding: 60px;
+    text-align: center;
+    background: #3a5f58;
+    background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/4411d5bd-19d3-440f-b9a7-13a49c466b8e/deg3qti-03ce1189-70d2-4d2b-9b57-090599bee7dd.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzQ0MTFkNWJkLTE5ZDMtNDQwZi1iOWE3LTEzYTQ5YzQ2NmI4ZVwvZGVnM3F0aS0wM2NlMTE4OS03MGQyLTRkMmItOWI1Ny0wOTA1OTliZWU3ZGQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.lmratgIyxDvbUs69QAFUTR1rUpF14jR65cltNPvDgCU");
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+    text-shadow: 4px 4px 8px #000000;
+  }
+
+  .column {
+    float: left;
+    width: 33.33%;
+    padding: 15px;
+    text-align: left;
+    background-color: #effaf4;
+
+  }
+  
+  /* Clear floats after the columns */
+  .row::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+   /* Responsive layout - when the screen is less than 600px wide, make the three columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+    .column {
+    width: 100%;
+    }
+  }  
   
 /* 
 Please read this article for more information 
@@ -30,12 +69,13 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/length
 */
 
   #chart {
-    width: 50vw;
+    width: 50%;
     height: 80vh;
+    background-color: #effaf4;
   }
 
   #network {
-    width: 50vw;
+    width: 50%;
     height: 80vh;
   }
   
@@ -58,10 +98,12 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/length
   }
   
   .nodes circle {
-    stroke: #fff;
+    stroke: #113834;
     stroke-width: 1.5px;
   }
 
-  label {
-    font-family: sans-serif;
+  .label {
+    font-family: Arial, Helvetica, sans-serif;
+    stroke:white;
+    fill:white;
   }

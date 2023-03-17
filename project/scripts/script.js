@@ -65,7 +65,7 @@ d3.json("./data/graph.json").then(function(graph) {
         //.attr("r", radius)
       .attr("class", "node_circles")
       .attr("r", function(d) {return d.size/nodesize_scaler; })
-      .attr("fill", 'red') //changed color to red
+      .attr("fill", '#113834') //changed color 
       .attr("id", function(d) {return d.name; })
       .call(d3.drag()
           .on("start", dragstarted)
@@ -226,7 +226,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
                 .attr("cx", function (d) { return xScale(d.time_posted); } )
                 .attr("cy", function (d) { return yScale(d.count); } )
                 .attr("r", 2)
-                .style("fill", "steelblue");
+                .style("fill", "black");
         
         //6.5 DRAW LINE
         var line = d3.line()
@@ -239,7 +239,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
             .attr("class", "line") 
             .attr("d", line)
             .style("fill", "none")
-            .style("stroke", "#CC0000")
+            .style("stroke", "black")
             .style("stroke-width", "2");
 
         //7. DRAW LABELS
