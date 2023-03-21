@@ -40,12 +40,14 @@ function dataJoin(data) {
     // data not directly the appearance of SVG elements. Instead, appearance is
     // specified above under "visualization specification".
 
-    g.on("click", (event, datum) => {
-        // TO DO
+    g.on("click", (event, d) => {
+        counter[0] = Math.min(++d, LIMIT);
+        dataJoin(counter);
     });
 
-    g.on("dblclick", (event, datum) => {
-        // TO DO
+    g.on("dblclick", (event, d) => {
+        counter[0] = 1;
+        dataJoin(counter);
     });
 
 }
