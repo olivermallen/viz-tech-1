@@ -165,12 +165,17 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
       drawline(filtered_data, selectedGroup);
     }
 
+    var selectedOptions = ["cottagecore"];
+
     //When a node is clicked, run the updateChart function
     d3.selectAll(".node_circles").on("click", function(d) {
-        // recover the option that has been chosen
-        var selectedOption = this.id;
+        if (selectedOptions.includes(this.id)) {
+            selectedOptions = selectedOptions.filter(e => e !== this.id);
+        } else {
+            // recover the option that has been chosen and add to array
+            selectedOptions.push(this.id); }
         // run the updateChart function with this selected option
-        update(selectedOption);
+        update(selectedOptions);
     })
 
     
@@ -192,6 +197,10 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
         };
 
         //access with lifeExp.min
+
+        //CREATE LEGEND
+        //https://d3-graph-gallery.com/graph/custom_legend.html
+
 
         //4. CREATE SCALES
         const margin = {top: 50, left:150, right:50, bottom:100};
