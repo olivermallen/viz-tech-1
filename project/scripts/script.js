@@ -28,8 +28,8 @@ const height = document.querySelector("#network").clientHeight;
 const nodesize_scaler = .1;
 const radius = 10;
 
-console.log(width);
-console.log(height);
+//console.log(width);
+//console.log(height);
 
 //create svg container
 const svg = d3.select("#network")
@@ -55,7 +55,7 @@ d3.json("./data/graph.json").then(function(graph) {
     .selectAll("line")
     .data(graph.links)
     .enter().append("line")
-      .attr("stroke-width", 2); //changed link width to 2
+      .attr("stroke-width", 0); //changed link width to 2
 
   var node = svg.append("g")
       .attr("class", "nodes")
@@ -145,22 +145,29 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
 
     });
 
-
+    //INITIALIZE CHART WITH COTTAGECORE
     let filtered_data = data.filter(function(d) { //initialize with cottagecore tag
 
         return d.tags === 'cottagecore';
 
+
     });
 
-    drawline(filtered_data, 'cottagecore');
+    drawline(filtered_data, ['cottagecore']);
+
+    //change transparency of node
+    d3.selectAll("#cottagecore").attr('fill-opacity', 0.7);
+
+    //UPDATE CHART
 
     // A function that updates the chart
     function update(selectedGroup) {
 
       // Create new data with the selection
       let filtered_data = data.filter(function(d){
-        return d.tags === selectedGroup
+        return selectedGroup.includes(d.tags);
       })
+
 
       drawline(filtered_data, selectedGroup);
     }
@@ -171,9 +178,19 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
     d3.selectAll(".node_circles").on("click", function(d) {
         if (selectedOptions.includes(this.id)) {
             selectedOptions = selectedOptions.filter(e => e !== this.id);
+            //change opacity of circle back
+            d3.select(this).transition()
+                .duration(500)
+                .attr('fill-opacity', 1);
+
         } else {
             // recover the option that has been chosen and add to array
-            selectedOptions.push(this.id); }
+            selectedOptions.push(this.id); 
+            //change opacity of circle
+            d3.select(this).transition()
+                .duration(500)
+                .attr('fill-opacity', 0.7);
+        }
         // run the updateChart function with this selected option
         update(selectedOptions);
     })
@@ -182,7 +199,8 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
 
     //console.log(filtered_data);
 
-    function drawline(filtered_data, value) {
+    function drawline(filtered_data, selectedTags) {
+        //grouped line chart example https://d3-graph-gallery.com/graph/line_several_group.html
         //CLEAR CANVAS
         svg.selectAll("*").remove(); 
         //3. DETERMINE MIN AND MAX VALUES OF VARIABLES
@@ -196,10 +214,8 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
             max: d3.max(filtered_data, function(d) {return d.time_posted;})
         };
 
-        //access with lifeExp.min
-
-        //CREATE LEGEND
-        //https://d3-graph-gallery.com/graph/custom_legend.html
+        //GROUP DATA BY TAGS
+        filtered_data = Array.from(d3.group(filtered_data, d => d.tags));
 
 
         //4. CREATE SCALES
@@ -226,30 +242,53 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
             .attr("transform", `translate(${margin.left},0)`)
             .call(d3.axisLeft().scale(yScale));
 
-        //6. DRAW DOTS
-        //source: https://www.educative.io/answers/how-to-create-a-line-chart-using-d3
-        const points = svg.selectAll("dot") // something here is weird and it makes the dots shifted to the right
-            .data(filtered_data)
-            .enter()
-            .append("circle")
-                .attr("cx", function (d) { return xScale(d.time_posted); } )
-                .attr("cy", function (d) { return yScale(d.count); } )
-                .attr("r", 2)
-                .style("fill", "black");
-        
-        //6.5 DRAW LINE
+        //COLOR SCHEME
+        const color = d3.scaleOrdinal()
+            .domain(selectedTags)
+            .range(d3.schemeSet2);
+
+        //CREATE LEGEND
+        //https://d3-graph-gallery.com/graph/custom_legend.html
+        // Add one dot in the legend for each name.
+        svg.selectAll("legenddots")
+        .data(selectedTags)
+        .enter()
+        .append("circle")
+        .attr("cx", 200)
+        .attr("cy", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("r", 7)
+        .style("fill", function(d){ return color(d)})
+
+        // Add one dot in the legend for each name.
+        svg.selectAll("legendlabels")
+        .data(selectedTags)
+        .enter()
+        .append("text")
+        .attr("x", 220)
+        .attr("y", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+        .style("fill", "black")
+        .text(function(d){ return d})
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+
+        //DRAW LINE
+
         var line = d3.line()
-            .x(function(d) { return xScale(d.time_posted); }) 
-            .y(function(d) { return yScale(d.count); }) 
-            .curve(d3.curveMonotoneX)
-            
-            svg.append("path")
-            .datum(filtered_data) 
-            .attr("class", "line") 
-            .attr("d", line)
-            .style("fill", "none")
-            .style("stroke", "black")
-            .style("stroke-width", "2");
+
+        svg.selectAll(".line")
+        .data(filtered_data)
+        .join("path")
+          .attr("fill", "none")
+          .attr("stroke", function(d){ return color(d[0]) })
+          .attr("stroke-width", 1.5)
+          .attr("d", function(d){
+            var line = d3.line()
+            .x(function(d) { return xScale(d.time_posted); })
+            .y(function(d) { return yScale(parseFloat(d.count)); })
+            //curve(d3.MonotoneX)
+            (d[1]);
+            return line;
+          });
 
         //7. DRAW LABELS
         const xAxisLabel = svg.append("text")
@@ -263,16 +302,10 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
             .attr("transform","rotate(-90)")
             .attr("x", -height/2)
             .attr("y", margin.left/3)
-            .text("Fraction of Tradwife Posts Containing #".concat(value));
+            .text("Fraction of Tradwife Posts Containing Tag");
 }
 
 });
 
-
-//still to add
-//wrap node lables
-//multiple line graph function
-//zoom
-//add introductory page/slides
-//add links to tumblr website from tag
-//make pretty
+//zoom and pan with axis (for timeline)
+//https://d3-graph-gallery.com/graph/interactivity_zoom.html#axisZoom
