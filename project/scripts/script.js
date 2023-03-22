@@ -44,7 +44,7 @@ var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody().strength(-30))
     .force("center", d3.forceCenter(width / 2, height / 2))
     .force('collision', d3.forceCollide().radius(function(d) {
-        return d.size/nodesize_scaler
+        return d.size/nodesize_scaler+3;
       }));
     //.force('collision', d3.forceCollide().radius(radius));
 
@@ -65,7 +65,7 @@ d3.json("./data/graph.json").then(function(graph) {
         //.attr("r", radius)
       .attr("class", "node_circles")
       .attr("r", function(d) {return d.size/nodesize_scaler; })
-      .attr("fill", '#113834') //changed color 
+      //.attr("fill", '#113834') //changed color 
       .attr("id", function(d) {return d.name; })
       .call(d3.drag()
           .on("start", dragstarted)
@@ -79,7 +79,7 @@ d3.json("./data/graph.json").then(function(graph) {
     .data(graph.nodes)
     .enter().append("text")
     .attr("text-anchor", "middle")
-    .attr("font-size", function(d) { return Math.round(d.size/(3*nodesize_scaler))+'px'; })
+    .attr("font-size", function(d) { return Math.round(d.size/(2*nodesize_scaler))+'px'; })
     //.attr("font-size", function(d) { return Math.round(radius/(3*nodesize_scaler))+'px'; })
     //.text(function(d) { return d.name.substring(0, d.size / 3*nodesize_scaler); })
     //.attr("dx", 12)
@@ -156,7 +156,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
     drawline(filtered_data, ['cottagecore']);
 
     //change transparency of node
-    d3.selectAll("#cottagecore").attr('fill-opacity', 0.7);
+    d3.selectAll("#cottagecore").attr('fill-opacity', 0.2);
 
     //UPDATE CHART
 
@@ -189,7 +189,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
             //change opacity of circle
             d3.select(this).transition()
                 .duration(500)
-                .attr('fill-opacity', 0.7);
+                .attr('fill-opacity', 0.2);
         }
         // run the updateChart function with this selected option
         update(selectedOptions);
