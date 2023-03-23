@@ -70,7 +70,17 @@ d3.json("./data/graph.json").then(function(graph) {
       .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)
-          .on("end", dragended));
+          .on("end", dragended))
+      .on("mouseover", function(event, d){
+        d3.select(this).select("circle").transition()
+          .duration(800)
+          .attr("r", 30);
+      })
+      .on ("mouseout", function(event, d){
+        d3.select(this).select("circle").transition()
+          .duration(800)
+          .attr("r", d.size/nodesize_scaler);
+      });
 
  
   var text = svg.append("g")
