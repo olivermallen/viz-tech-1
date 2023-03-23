@@ -70,19 +70,8 @@ d3.json("./data/graph.json").then(function(graph) {
       .call(d3.drag()
           .on("start", dragstarted)
           .on("drag", dragged)
-          .on("end", dragended))
-      .on("mouseover", function(event, d){
-        d3.select(this).select("circle").transition()
-          .duration(800)
-          .attr("r", 30);
-      })
-      .on ("mouseout", function(event, d){
-        d3.select(this).select("circle").transition()
-          .duration(800)
-          .attr("r", d.size/nodesize_scaler);
-      });
+          .on("end", dragended));
 
- 
   var text = svg.append("g")
     .attr("class", "label")
     .selectAll("text")
@@ -94,7 +83,17 @@ d3.json("./data/graph.json").then(function(graph) {
     //.text(function(d) { return d.name.substring(0, d.size / 3*nodesize_scaler); })
     //.attr("dx", 12)
     //.attr("dy", ".35em")
-    .text(function(d) { return d.name });
+    .text(function(d) { return d.name })
+    // .on('mouseover', function (d, i) {
+    //   d3.select(this).transition()
+    //        .duration('50')
+    //        .attr('font-size', 80)
+    //        .attr('background-color', '#effaf4');})     
+    // .on('mouseout', function (d, i) {
+    //   d3.select(this).transition()
+    //        .duration('50')
+    //        .attr('font-size', function (d) {return Math.round(d.size/(2*nodesize_scaler))+'px'})
+    //        .attr('background-color', 'transparent');});
   
   node.append("title")
     .text(function(d) { return d.name; });
@@ -324,7 +323,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
 var modal = document.getElementById("myModal");
 
 // Get the button that opens the modal
-//var btn = document.getElementById("myBtn");
+var btn = document.getElementById("myBtn");
 
 //automatically show modal
 modal.style.display = "block";
@@ -335,9 +334,9 @@ modal.style.display = "block";
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal 
-// btn.onclick = function() {
-//   modal.style.display = "block";
-// }
+btn.onclick = function() {
+  modal.style.display = "block";
+}
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
