@@ -250,26 +250,26 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
         //CREATE LEGEND
         //https://d3-graph-gallery.com/graph/custom_legend.html
         // Add one dot in the legend for each name.
-        svg.selectAll("legenddots")
-        .data(selectedTags)
-        .enter()
-        .append("circle")
-        .attr("cx", 200)
-        .attr("cy", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
-        .attr("r", 7)
-        .style("fill", function(d){ return color(d)})
+        // svg.selectAll("legenddots")
+        // .data(selectedTags)
+        // .enter()
+        // .append("circle")
+        // .attr("cx", 200)
+        // .attr("cy", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+        // .attr("r", 7)
+        // .style("fill", function(d){ return color(d)})
 
-        // Add one dot in the legend for each name.
-        svg.selectAll("legendlabels")
-        .data(selectedTags)
-        .enter()
-        .append("text")
-        .attr("x", 220)
-        .attr("y", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
-        .style("fill", "black")
-        .text(function(d){ return d})
-        .attr("text-anchor", "left")
-        .style("alignment-baseline", "middle")
+        // // Add one dot in the legend for each name.
+        // svg.selectAll("legendlabels")
+        // .data(selectedTags)
+        // .enter()
+        // .append("text")
+        // .attr("x", 220)
+        // .attr("y", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+        // .style("fill", "black")
+        // .text(function(d){ return d})
+        // .attr("text-anchor", "left")
+        // .style("alignment-baseline", "middle")
 
         //DRAW LINE
 
