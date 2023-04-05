@@ -249,7 +249,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
 
 
         //4. CREATE SCALES
-        const margin = {top: 50, left:150, right:50, bottom:100};
+        const margin = {top: 50, left:150, right:50, bottom:175};
         
         //https://observablehq.com/@d3/d3-scaletime
 
@@ -265,7 +265,12 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
         const xAxis = svg.append("g")
             .attr("class","axis")
             .attr("transform", `translate(0,${height-margin.bottom})`)
-            .call(d3.axisBottom().scale(xScale));
+            .call(d3.axisBottom().scale(xScale))
+            .selectAll("text")  
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", "rotate(-65)" );
 
         const yAxis = svg.append("g")
             .attr("class","axis")
