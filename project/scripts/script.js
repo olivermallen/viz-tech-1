@@ -25,8 +25,8 @@
 const width = document.querySelector("#network").clientWidth;
 const height = document.querySelector("#network").clientHeight;
 
-const nodesize_scaler = .1;
-const radius = 10;
+const nodesize_scaler = .120;
+//const radius = 10;
 
 
 //console.log(width);
@@ -74,6 +74,7 @@ d3.json("./data/graph.json").then(function(graph) {
       //     .on("start", dragstarted)
       //     .on("drag", dragged)
       //     .on("end", dragended));
+  
 
   var text = svg.append("g")
     .attr("class", "label")
@@ -81,22 +82,10 @@ d3.json("./data/graph.json").then(function(graph) {
     .data(graph.nodes)
     .enter().append("text")
     .attr("text-anchor", "middle")
-    .attr("font-size", function(d) { return Math.round(d.size/(2*nodesize_scaler))+'px'; })
-    //.attr("font-size", function(d) { return Math.round(radius/(3*nodesize_scaler))+'px'; })
-    //.text(function(d) { return d.name.substring(0, d.size / 3*nodesize_scaler); })
-    //.attr("dx", 12)
-    //.attr("dy", ".35em")
-    .text(function(d) { return d.name })
-    // .on('mouseover', function (d, i) {
-    //   d3.select(this).transition()
-    //        .duration('50')
-    //        .attr('font-size', 80)
-    //        .attr('background-color', '#effaf4');})     
-    // .on('mouseout', function (d, i) {
-    //   d3.select(this).transition()
-    //        .duration('50')
-    //        .attr('font-size', function (d) {return Math.round(d.size/(2*nodesize_scaler))+'px'})
-    //        .attr('background-color', 'transparent');});
+    .attr('textLength', function(d) {return Math.round(2*(d.size/nodesize_scaler)*.80);})
+    .attr('lengthAdjust', 'spacingAndGlyphs')
+    //.attr("font-size", function(d) { return Math.round(d.size/(2*nodesize_scaler))+'px'; })
+    .text(function(d) { return d.name });
   
   node.append("title")
     .text(function(d) { return d.name; });
@@ -120,8 +109,8 @@ d3.json("./data/graph.json").then(function(graph) {
         .attr("y2", function(d) { return d.target.y; });
 
     node
-        .attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
-        .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
+        .attr("cx", function(d) { return d.x = Math.max(d.size/nodesize_scaler, Math.min(width - d.size/nodesize_scaler, d.x)); })
+        .attr("cy", function(d) { return d.y = Math.max(d.size/nodesize_scaler, Math.min(height - d.size/nodesize_scaler, d.y)); });
     
     text.attr("x", function(d) { return d.x; })
         .attr("y", function(d) { return d.y; });
@@ -148,7 +137,7 @@ d3.json("./data/graph.json").then(function(graph) {
     
     text.attr("x", function(d) { return d.fisheye.x;})
         .attr("y", function(d) {return d.fisheye.y;})
-        .attr("font-size", function(d) {return Math.round(d.size/(2*nodesize_scaler))*d.fisheye.z+'px';});
+        .attr("textLength", function(d) {return Math.round((d.size/nodesize_scaler)*2*.80)*d.fisheye.z;});
   });
 
 });
@@ -243,6 +232,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
         //grouped line chart example https://d3-graph-gallery.com/graph/line_several_group.html
         //CLEAR CANVAS
         svg.selectAll("*").remove(); 
+        
         //3. DETERMINE MIN AND MAX VALUES OF VARIABLES
         const count = {
             min: d3.min(filtered_data, function(d) {return +d.count;}),
