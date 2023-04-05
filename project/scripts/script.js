@@ -5,28 +5,29 @@
 //https://gist.github.com/mbostock/4062045
 //https://stackoverflow.com/questions/41928319/text-not-showing-as-label-in-d3-force-layout for naming nodes
 
-function dragstarted(event, d) {
-    if (!event.active) simulation.alphaTarget(0.3).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  }
+// function dragstarted(event, d) {
+//     if (!event.active) simulation.alphaTarget(0.3).restart();
+//     d.fx = d.x;
+//     d.fy = d.y;
+//   }
   
-  function dragged(event, d) {
-    d.fx = event.x;
-    d.fy = event.y;
-  }
+//   function dragged(event, d) {
+//     d.fx = event.x;
+//     d.fy = event.y;
+//   }
   
-  function dragended(event, d) {
-    if (!event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
-  }
+//   function dragended(event, d) {
+//     if (!event.active) simulation.alphaTarget(0);
+//     d.fx = null;
+//     d.fy = null;
+//   }
 
 const width = document.querySelector("#network").clientWidth;
 const height = document.querySelector("#network").clientHeight;
 
 const nodesize_scaler = .1;
 const radius = 10;
+
 
 //console.log(width);
 //console.log(height);
@@ -37,7 +38,7 @@ const svg = d3.select("#network")
     .attr("width", width)
     .attr("height", height);
 
-//var color = d3.scaleOrdinal(d3.schemeCategory20);
+// making graph static https://jarrettmeyer.com/2019/01/04/static-force-layout-d3js
 
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.name; }))
@@ -48,8 +49,10 @@ var simulation = d3.forceSimulation()
       }));
     //.force('collision', d3.forceCollide().radius(radius));
 
+
 d3.json("./data/graph.json").then(function(graph) {
   //if (error) throw error;
+
   var link = svg.append("g")
       .attr("class", "links")
     .selectAll("line")
@@ -66,11 +69,11 @@ d3.json("./data/graph.json").then(function(graph) {
       .attr("class", "node_circles")
       .attr("r", function(d) {return d.size/nodesize_scaler; })
       //.attr("fill", '#113834') //changed color 
-      .attr("id", function(d) {return d.name; })
-      .call(d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended));
+      .attr("id", function(d) {return d.name; });
+      // .call(d3.drag()
+      //     .on("start", dragstarted)
+      //     .on("drag", dragged)
+      //     .on("end", dragended));
 
   var text = svg.append("g")
     .attr("class", "label")
@@ -105,6 +108,10 @@ d3.json("./data/graph.json").then(function(graph) {
   simulation.force("link")
       .links(graph.links);
 
+  while (simulation.alpha() > simulation.alphaMin()) {
+      simulation.tick();
+  } //causes layout to happen without animation
+
   function ticked() {
     link
         .attr("x1", function(d) { return d.source.x; })
@@ -120,6 +127,30 @@ d3.json("./data/graph.json").then(function(graph) {
         .attr("y", function(d) { return d.y; });
     
   }
+
+  //fisheye
+  var fisheye = d3.fisheye.circular()
+      .radius(200)
+      .distortion(2);
+
+  svg.on("mousemove", function(event, d) {
+    fisheye.focus(d3.pointer(event));
+  
+    node.each(function(d) { d.fisheye = fisheye(d); })
+        .attr("cx", function(d) { return d.fisheye.x; })
+        .attr("cy", function(d) { return d.fisheye.y; })
+        .attr("r", function(d) { return d.fisheye.z * d.size/nodesize_scaler; });
+  
+    link.attr("x1", function(d) { return d.source.fisheye.x; })
+        .attr("y1", function(d) { return d.source.fisheye.y; })
+        .attr("x2", function(d) { return d.target.fisheye.x; })
+        .attr("y2", function(d) { return d.target.fisheye.y; });
+    
+    text.attr("x", function(d) { return d.fisheye.x;})
+        .attr("y", function(d) {return d.fisheye.y;})
+        .attr("font-size", function(d) {return Math.round(d.size/(2*nodesize_scaler))*d.fisheye.z+'px';});
+  });
+
 });
 
 
