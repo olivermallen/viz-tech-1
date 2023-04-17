@@ -5,5 +5,5 @@ Social media sites can offer a breadth of perspectives and information, as well 
 
 ![visualization](readme_image.png)
 
-![write up][project/Visualization_Technologies_I_Final_Paper.pdf]
+![write up](project/Visualization_Technologies_I_Final_Paper.pdf)
 
