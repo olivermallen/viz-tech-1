@@ -249,7 +249,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
 
 
         //4. CREATE SCALES
-        const margin = {top: 50, left:150, right:50, bottom:175};
+        const margin = {top: 50, left:75, right:50, bottom:75};
         
         //https://observablehq.com/@d3/d3-scaletime
 
@@ -332,12 +332,12 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
         //     .attr("y", height-margin.bottom/2)
         //     .text("Date");
 
-        const yAxisLabel = svg.append("text")
-            .attr("class","axisLabel")
-            .attr("transform","rotate(-90)")
-            .attr("x", -height/2)
-            .attr("y", margin.left/3)
-            .text("Fraction of Tradwife Posts Containing Tag");
+        // const yAxisLabel = svg.append("text")
+        //     .attr("class","axisLabel")
+        //     .attr("transform","rotate(-90)")
+        //     .attr("x", -height/2)
+        //     .attr("y", margin.left/3)
+        //     .text("Fraction of Tradwife Posts Containing Tag");
 }
 
 });
