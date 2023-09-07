@@ -141,7 +141,7 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/length
 /* Modal Content */
 .modal-content {
   position: relative;
-  margin:auto;
+  margin:30% auto;
   background-color: #effaf4;
   width: 70%;
   -webkit-animation-name: slideIn;
