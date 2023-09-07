@@ -140,10 +140,10 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/length
 
 /* Modal Content */
 .modal-content {
-  position: fixed;
-  bottom: 0;
+  position: relative;
+  margin:auto;
   background-color: #effaf4;
-  width: 100%;
+  width: 70%;
   -webkit-animation-name: slideIn;
   -webkit-animation-duration: 0.4s;
   animation-name: slideIn;
