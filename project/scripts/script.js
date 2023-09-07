@@ -25,7 +25,7 @@
 const width = document.querySelector("#network").clientWidth;
 const height = document.querySelector("#network").clientHeight;
 
-const nodesize_scaler = .120;
+const nodesize_scaler = .080;
 //const radius = 10;
 
 
@@ -326,11 +326,11 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
           });
 
         //7. DRAW LABELS
-        const xAxisLabel = svg.append("text")
-            .attr("class","axisLabel")
-            .attr("x", width/2)
-            .attr("y", height-margin.bottom/2)
-            .text("Date");
+        // const xAxisLabel = svg.append("text")
+        //     .attr("class","axisLabel")
+        //     .attr("x", width/2)
+        //     .attr("y", height-margin.bottom/2)
+        //     .text("Date");
 
         const yAxisLabel = svg.append("text")
             .attr("class","axisLabel")
