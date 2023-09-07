@@ -34,8 +34,12 @@ to all elements.
     font-size: 10px;
   }
 
+  .row{
+    text-align: center;
+  }
+
   .column {
-    float: left;
+    display: inline-block;
     width: 50%;
     padding: 0%;
     text-align: left;
