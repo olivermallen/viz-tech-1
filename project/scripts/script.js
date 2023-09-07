@@ -25,8 +25,8 @@
 // const width = document.querySelector("#network").clientWidth;
 // const height = document.querySelector("#network").clientHeight;
 
-const width = 2000;
-const height = 2000;
+const width = 1750;
+const height = 1750;
 
 const nodesize_scaler = .050;
 //const radius = 10;
@@ -293,7 +293,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
         .enter()
         .append("circle")
         .attr("cx", 200)
-        .attr("cy", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("cy", function(d,i){ return 25 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
         .attr("r", 7)
         .style("fill", function(d){ return color(d)})
 
@@ -303,7 +303,7 @@ d3.tsv("./data/timeline_data.tsv").then(function(data) {
         .enter()
         .append("text")
         .attr("x", 220)
-        .attr("y", function(d,i){ return 100 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("y", function(d,i){ return 25 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
         .style("fill", "black")
         .text(function(d){ return d})
         .attr("text-anchor", "left")
