@@ -22,10 +22,13 @@
 //     d.fy = null;
 //   }
 
-const width = document.querySelector("#network").clientWidth;
-const height = document.querySelector("#network").clientHeight;
+// const width = document.querySelector("#network").clientWidth;
+// const height = document.querySelector("#network").clientHeight;
 
-const nodesize_scaler = .100;
+const width = 2000;
+const height = 2000;
+
+const nodesize_scaler = .050;
 //const radius = 10;
 
 
