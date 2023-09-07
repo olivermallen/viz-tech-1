@@ -41,7 +41,7 @@ to all elements.
   .column {
     display: inline-block;
     width: 50%;
-    padding: 0%;
+    padding: 1%;
     text-align: left;
     background-color: #ffffff;
 

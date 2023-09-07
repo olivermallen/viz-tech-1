@@ -25,8 +25,8 @@
 // const width = document.querySelector("#network").clientWidth;
 // const height = document.querySelector("#network").clientHeight;
 
-const width = 1750;
-const height = 1750;
+const width = 1600;
+const height = 1600;
 
 const nodesize_scaler = .050;
 //const radius = 10;
