@@ -120,28 +120,28 @@ d3.json("./data/graph.json").then(function(graph) {
     
   }
 
-  //fisheye
-  var fisheye = d3.fisheye.circular()
-      .radius(200)
-      .distortion(2);
+  // //fisheye
+  // var fisheye = d3.fisheye.circular()
+  //     .radius(200)
+  //     .distortion(2);
 
-  svg.on("mousemove", function(event, d) {
-    fisheye.focus(d3.pointer(event));
+  // svg.on("mousemove", function(event, d) {
+  //   fisheye.focus(d3.pointer(event));
   
-    node.each(function(d) { d.fisheye = fisheye(d); })
-        .attr("cx", function(d) { return d.fisheye.x; })
-        .attr("cy", function(d) { return d.fisheye.y; })
-        .attr("r", function(d) { return d.fisheye.z * d.size/nodesize_scaler; });
+  //   node.each(function(d) { d.fisheye = fisheye(d); })
+  //       .attr("cx", function(d) { return d.fisheye.x; })
+  //       .attr("cy", function(d) { return d.fisheye.y; })
+  //       .attr("r", function(d) { return d.fisheye.z * d.size/nodesize_scaler; });
   
-    link.attr("x1", function(d) { return d.source.fisheye.x; })
-        .attr("y1", function(d) { return d.source.fisheye.y; })
-        .attr("x2", function(d) { return d.target.fisheye.x; })
-        .attr("y2", function(d) { return d.target.fisheye.y; });
+  //   link.attr("x1", function(d) { return d.source.fisheye.x; })
+  //       .attr("y1", function(d) { return d.source.fisheye.y; })
+  //       .attr("x2", function(d) { return d.target.fisheye.x; })
+  //       .attr("y2", function(d) { return d.target.fisheye.y; });
     
-    text.attr("x", function(d) { return d.fisheye.x;})
-        .attr("y", function(d) {return d.fisheye.y;})
-        .attr("textLength", function(d) {return Math.round((d.size/nodesize_scaler)*2*.80)*d.fisheye.z;});
-  });
+  //   text.attr("x", function(d) { return d.fisheye.x;})
+  //       .attr("y", function(d) {return d.fisheye.y;})
+  //       .attr("textLength", function(d) {return Math.round((d.size/nodesize_scaler)*2*.80)*d.fisheye.z;});
+  // });
 
 });
 
